@@ -53,7 +53,7 @@ class MetadataForms(html.Div):
                     html.Br(),
                     dbc.Col(self.source_forms, width={'size': 12}),
                     dbc.Col(
-                        dbc.Button('Get Metadata Form', id='get_metadata_btn'),
+                        dbc.Button('Get Metadata Form', id='get_metadata_btn', color='dark'),
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                         width={'size': 4}
                     )
