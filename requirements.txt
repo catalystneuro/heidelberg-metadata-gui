@@ -1,2 +1,2 @@
-dash-cool-components==0.1.2
+dash-cool-components
 dash-bootstrap-components
