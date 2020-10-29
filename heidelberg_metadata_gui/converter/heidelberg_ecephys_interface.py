@@ -13,7 +13,7 @@ class HeidelbergEcephysInterface(BaseDataInterface):
 
     @classmethod
     def get_input_schema(cls):
-        with pkg_resources.open_text(schema, 'source_schema_ecephys.json') as f:
+        with pkg_resources.open_text(schema, 'input_schema_ecephys.json') as f:
             input_schema = json.load(f)
         return input_schema
 
