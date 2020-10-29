@@ -1,4 +1,4 @@
-from heideilberg_metadata_gui import init_app
+from heidelberg_metadata_gui import init_app
 
 app = init_app()
 
