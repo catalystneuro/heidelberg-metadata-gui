@@ -171,11 +171,10 @@ class MetadataForms(html.Div):
         @self.parent_app.callback(
             Output('metadata-external-trigger-update-internal-dict', 'children'),
             [
-                Input('button_export_metadata', 'n_clicks'),
-                Input('button_run_conversion', 'n_clicks')
+                Input('button_export_metadata', 'n_clicks')
             ],
         )
-        def update_internal_metadata(click_export, click_conversion):
+        def update_internal_metadata(click_export):
             """
             Trigger metadata internal dict update and then:
             1) set export_controller to true, when exporting to json/yaml
@@ -189,9 +188,6 @@ class MetadataForms(html.Div):
                 if button_id == 'button_export_metadata':
                     self.export_controller = True
                     self.convert_controller = False
-                elif button_id == 'button_run_conversion':
-                    self.export_controller = False
-                    self.convert_controller = True
                 return str(np.random.rand())
 
         @self.parent_app.callback(
@@ -200,17 +196,13 @@ class MetadataForms(html.Div):
                 Output('button_load_metadata', 'style'),
                 Output('button_export_metadata', 'style'),
                 Output('button_refresh', 'style'),
-                Output('row_output_conversion', 'style'),
-                Output('text-conversion-results', 'style'),
                 Output('get_metadata_done', 'n_clicks')
             ],
             [Input('sourcedata-output-update-finished-verification', 'children')],
             [
                 State('button_load_metadata', 'style'),
                 State('button_export_metadata', 'style'),
-                State('button_refresh', 'style'),
-                State('row_output_conversion', 'style'),
-                State('text-conversion-results', 'style')
+                State('button_refresh', 'style')
             ]
         )
         def get_metadata(trigger, *styles):
@@ -230,7 +222,7 @@ class MetadataForms(html.Div):
                     self.metadata_forms.children = self.metadata_forms.children_triggers
                     self.metadata_forms.data = dict()
                     self.metadata_forms.schema = dict()
-                return [self.metadata_forms, styles[0], styles[1], styles[2], styles[3], styles[4], None]
+                return [self.metadata_forms, styles[0], styles[1], styles[2], None]
 
             # Get forms data
             alerts, source_data = self.source_forms.data_to_nested()
@@ -252,7 +244,8 @@ class MetadataForms(html.Div):
             self.metadata_forms.construct_children_forms()
             self.metadata_forms.update_data(data=self.metadata_json_data)
 
-            return [self.metadata_forms, {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, 1]
+            return [self.metadata_forms, {'display': 'block'}, {'display': 'block'},
+                    {'display': 'block'}, 1]
 
         @self.parent_app.callback(
             Output('sourcedata-external-trigger-update-internal-dict', 'children'),
