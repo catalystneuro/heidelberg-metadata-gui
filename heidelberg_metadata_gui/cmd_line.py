@@ -1,4 +1,4 @@
-from heidelberg_metadata_gui import init_app
+from . import init_app
 from pathlib import Path
 import os
 

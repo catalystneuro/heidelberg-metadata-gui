@@ -27,6 +27,6 @@ setup(
     include_package_data=True,
     install_requires=install_requires,
     entry_points={
-        'console_scripts': ['metadata-gui=cmd_line:cmd_line_shortcut'],
+        'console_scripts': ['metadata-gui=heidelberg_metadata_gui.cmd_line:cmd_line_shortcut'],
     }
 )
