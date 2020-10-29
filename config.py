@@ -33,8 +33,5 @@ class ConfigDev(Config):
     parser = configparser.ConfigParser()
     parser.read('config.ini')
 
-    if 'DATA' in parser.sections():
-        os.environ['DATA_PATH'] = parser['DATA']['DATA_PATH']
-
     if 'SECRETS' in parser.sections():
         os.environ['SECRET_KEY'] = parser['SECRETS']['SECRET_KEY']
