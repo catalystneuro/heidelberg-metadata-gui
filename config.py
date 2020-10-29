@@ -22,10 +22,7 @@ class ConfigDev(Config):
     FLASK_ENV = 'development'
     DEBUG = True
     TESTING = True
-    DATABASE_URI = 'DEV_DATABASE_URI'
-
-    # DATA_PATH = '/home/vinicius/Área de Trabalho/Trabalhos/nwb-web-gui/files'
-    # DATA_PATH = r'C:\Users\Luiz\Desktop\data_app'
+    DATABASE_URI = 'DATABASE_URI_DEV'
 
     # The following variables are recovered by the app from ENV variables
     # In Development, we get them from a .ini file and set the ENV vars

@@ -16,14 +16,14 @@ def parse_arguments():
         help="Path to datasets."
     )
     parser.add_argument(
-        "--debug",
-        default=False,
-        help="Set debug."
-    )
-    parser.add_argument(
         "--port",
         default='5000',
         help="Path to datasets."
+    )
+    parser.add_argument(
+        "--dev",
+        default=False,
+        help="Run in development mode."
     )
 
     # Parse arguments
@@ -38,15 +38,18 @@ def cmd_line_shortcut():
     # Set ENV variables for app
     data_path = str(Path(run_args.data_path).resolve())
     os.environ['DATA_PATH'] = data_path
+    os.environ['FLASK_ENV'] = 'production'
 
     print(f'Metadata editing GUI running on localhost:{run_args.port}')
-    print(f'Debug mode: {run_args.debug}')
     print(f'Data path: {data_path}')
+    if run_args.dev:
+        os.environ['FLASK_ENV'] = 'development'
+        print('Running in development mode')
 
     app = init_app()
     app.run(
         host='0.0.0.0',
         port=run_args.port,
-        debug=run_args.debug,
-        use_reloader=run_args.debug
+        debug=run_args.dev,
+        use_reloader=run_args.dev
     )

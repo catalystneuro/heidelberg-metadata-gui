@@ -139,8 +139,6 @@ class MetadataForms(html.Div):
             If export controller is not setted to true but the metadata internal dict was updated
             the function will return the current application state
             """
-
-
             # Prevent default
             if not self.export_controller or not trigger:
                 return fileoption_is_open, req_is_open, []

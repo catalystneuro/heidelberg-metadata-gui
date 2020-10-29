@@ -5,7 +5,11 @@ import os
 def init_app():
     """Construct core Flask application with embedded Dash app."""
     app = Flask(__name__, instance_relative_config=False)
-    app.config.from_object('config.ConfigDev')
+
+    if os.environ.get('FLASK_ENV') == 'development':
+        app.config.from_object('config.ConfigDev')
+    else:
+        app.config.from_object('config.ConfigProduction')
 
     # Variables from ENV vars
     app.config['DATA_PATH'] = os.environ.get('DATA_PATH')

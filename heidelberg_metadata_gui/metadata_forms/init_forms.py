@@ -22,6 +22,6 @@ def init_forms(server, converter_class):
         navbar,
         MetadataForms(parent_app=dash_app, converter_class=converter_class)
     ])
-    dash_app.enable_dev_tools(debug=True)
+    dash_app.enable_dev_tools(debug=dash_app.server.config['DEBUG'])
 
     return dash_app.server
