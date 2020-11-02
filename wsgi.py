@@ -1,4 +1,10 @@
 from heidelberg_metadata_gui import init_app
+from pathlib import Path
+import os
+
+
+# Set ENV variables for app
+os.environ['DATA_PATH'] = str(Path('.').resolve())
 
 app = init_app()
 
