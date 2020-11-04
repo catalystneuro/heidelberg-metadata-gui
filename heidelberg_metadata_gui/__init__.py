@@ -7,9 +7,9 @@ def init_app():
     app = Flask(__name__, instance_relative_config=False)
 
     if os.environ.get('FLASK_ENV') == 'development':
-        app.config.from_object('config.ConfigDev')
+        app.config.from_object('heidelberg_metadata_gui.config.ConfigDev')
     else:
-        app.config.from_object('config.ConfigProduction')
+        app.config.from_object('heidelberg_metadata_gui.config.ConfigProduction')
 
     # Variables from ENV vars
     app.config['DATA_PATH'] = os.environ.get('DATA_PATH')
