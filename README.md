@@ -19,5 +19,5 @@ On your browser, navigate to `localhost:5000`.
 
 You can run metadata-gui with optional arguments, for example:
 ```
-$ metadata-gui --data-path path_to/dataset/ --port XXXX
+$ metadata-gui --data_path path_to/dataset/ --port XXXX
 ```
