@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+from pathlib import Path
 
 
 def init_app():
@@ -12,7 +13,7 @@ def init_app():
         app.config.from_object('heidelberg_metadata_gui.config.ConfigProduction')
 
     # Variables from ENV vars
-    app.config['DATA_PATH'] = os.environ.get('DATA_PATH')
+    app.config['DATA_PATH'] = os.environ.get('DATA_PATH', Path.cwd())
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
     with app.app_context():

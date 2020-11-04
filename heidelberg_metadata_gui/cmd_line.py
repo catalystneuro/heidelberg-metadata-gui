@@ -36,7 +36,7 @@ def cmd_line_shortcut():
     run_args = parse_arguments()
 
     # Set ENV variables for app
-    data_path = str(Path(run_args.data_path).resolve())
+    data_path = str(Path(run_args.data_path))
     os.environ['DATA_PATH'] = data_path
     os.environ['FLASK_ENV'] = 'production'
 

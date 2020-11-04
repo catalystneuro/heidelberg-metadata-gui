@@ -245,7 +245,6 @@ class MetadataForms(html.Div):
             if alerts is not None:
                 return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
 
-
             self.get_metadata_controller = False
 
             # Get metadata schema from converter
