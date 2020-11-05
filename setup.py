@@ -23,7 +23,12 @@ setup(
     author_email='luiz@taufferconsulting.com',
     url='https://github.com/catalystneuro/heidelberg-metadata-gui',
     packages=find_packages(),
-    package_data={'': ['*.yml', '*.json', '*.ini', '*.png']},
+    package_data={'heidelberg_metadata_gui': [
+        'converter/schema/*.yml',
+        'converter/schema/*.json',
+        '*.ini',
+        'assets/*.png'
+    ]},
     include_package_data=True,
     install_requires=install_requires,
     entry_points={
