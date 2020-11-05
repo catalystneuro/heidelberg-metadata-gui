@@ -27,7 +27,8 @@ setup(
         'converter/schema/*.yml',
         'converter/schema/*.json',
         '*.ini',
-        'assets/*.png'
+        'assets/*.png',
+        'assets/*.css'
     ]},
     include_package_data=True,
     install_requires=install_requires,
