@@ -1,0 +1,8 @@
+.vscode
+__pycache__
+venv
+envTe
+heidelberg_metadata_gui.egg-info
+dist
+build
+files
