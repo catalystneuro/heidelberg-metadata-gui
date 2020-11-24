@@ -34,7 +34,7 @@ class MetadataForms(html.Div):
         if not self.downloads_path.is_dir():
             self.downloads_path.mkdir()
 
-        self.source_json_schema = converter_class.get_input_schema()
+        self.source_json_schema = converter_class.get_source_schema()
 
         # Source data Form
         self.source_forms = SchemaFormContainer(
@@ -220,7 +220,7 @@ class MetadataForms(html.Div):
                 State('button_refresh', 'style'),
             ]
         )
-        def get_metadata(trigger, alert_is_open,*styles):
+        def get_metadata(trigger, alert_is_open, *styles):
             """
             Render Metadata forms based on Source Data Form
             This function is triggered when sourcedata internal dict is updated
@@ -248,7 +248,7 @@ class MetadataForms(html.Div):
             self.get_metadata_controller = False
 
             # Get metadata schema from converter
-            self.converter = self.converter_class(input_data=source_data)
+            self.converter = self.converter_class(source_data=source_data)
             self.metadata_json_schema = self.converter.get_metadata_schema()
 
             # Get metadata data from converter

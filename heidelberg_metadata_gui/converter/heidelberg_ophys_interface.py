@@ -1,5 +1,5 @@
 from nwb_conversion_tools.basedatainterface import BaseDataInterface
-from nwb_conversion_tools.utils import get_metadata_schema, get_base_schema, get_schema_from_hdmf_class
+from nwb_conversion_tools.utils import get_base_schema, get_schema_from_hdmf_class
 from pynwb import NWBFile
 import pynwb
 import importlib.resources as pkg_resources
@@ -12,16 +12,16 @@ from . import schema
 class HeidelbergOphysInterface(BaseDataInterface):
 
     @classmethod
-    def get_input_schema(cls):
-        with pkg_resources.open_text(schema, 'input_schema_ophys.json') as f:
-            input_schema = json.load(f)
-        return input_schema
+    def get_source_schema(cls):
+        with pkg_resources.open_text(schema, 'source_schema_ophys.json') as f:
+            source_schema = json.load(f)
+        return source_schema
 
-    def __init__(self, **input_args):
-        super().__init__(**input_args)
+    def __init__(self, **source_data):
+        super().__init__(**source_data)
 
     def get_metadata_schema(self):
-        metadata_schema = get_metadata_schema()
+        metadata_schema = super().get_metadata_schema()
         metadata_schema['properties']['Ophys'] = get_base_schema(tag='Ophys')
         metadata_schema['properties']['Ophys']['properties']['Device'] = get_schema_from_hdmf_class(pynwb.device.Device)
 

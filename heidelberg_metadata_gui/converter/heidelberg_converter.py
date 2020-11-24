@@ -12,5 +12,5 @@ class HeidelbergNWBConverter(NWBConverter):
         'HeidelbergOphysInterface': HeidelbergOphysInterface,
     }
 
-    def __init__(self, input_data):
-        super().__init__(**input_data)
+    def __init__(self, source_data):
+        super().__init__(**source_data)
