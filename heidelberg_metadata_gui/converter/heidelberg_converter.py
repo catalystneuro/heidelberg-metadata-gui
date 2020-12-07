@@ -13,4 +13,4 @@ class HeidelbergNWBConverter(NWBConverter):
     }
 
     def __init__(self, source_data):
-        super().__init__(**source_data)
+        super().__init__(source_data)

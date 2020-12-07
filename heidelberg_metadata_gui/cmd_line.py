@@ -1,5 +1,7 @@
 from . import init_app
 from pathlib import Path
+from threading import Timer
+import webbrowser
 import os
 
 
@@ -46,7 +48,16 @@ def cmd_line_shortcut():
         os.environ['FLASK_ENV'] = 'development'
         print('Running in development mode')
 
+    # Initialize app
     app = init_app()
+
+    # Open browser after 1 sec
+    def open_browser():
+        webbrowser.open_new(f'http://localhost:{run_args.port}/')
+
+    Timer(1, open_browser).start()
+
+    # Run app
     app.run(
         host='0.0.0.0',
         port=run_args.port,
