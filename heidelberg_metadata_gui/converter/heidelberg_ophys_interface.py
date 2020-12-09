@@ -35,6 +35,7 @@ class HeidelbergOphysInterface(BaseDataInterface):
         )
         return metadata
 
-    def convert_data(self, nwbfile: NWBFile, metadata_dict: dict,
-                     stub_test: bool = False):
-        raise NotImplementedError('Conversion not implemented')
+    def run_conversion(self, nwbfile: NWBFile, metadata_dict: dict,
+                       stub_test: bool = False):
+        print('Conversion not implemented')
+        # raise NotImplementedError('Conversion not implemented')

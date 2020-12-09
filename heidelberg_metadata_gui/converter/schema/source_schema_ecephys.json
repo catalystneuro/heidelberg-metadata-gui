@@ -1,14 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "input.schema.json",
-  "title": "Source data",
+  "title": "Source ecephys data",
   "description": "Schema for the source data",
   "version": "0.1.0",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "path_ecephys_raw"
-  ],
+  "required": [],
   "properties": {
     "path_ecephys_raw": {
       "type": "string",
