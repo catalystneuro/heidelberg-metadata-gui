@@ -1,2 +1,2 @@
 nwb-conversion-tools
-nwb-web-gui
+json_schema_to_dash_forms
