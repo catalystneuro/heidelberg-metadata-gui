@@ -10,9 +10,10 @@ def home():
 
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
-    if func is None:
-        raise RuntimeError('Not running with the Werkzeug Server')
-    func()
+    if func is not None:
+        #raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+    return
 
 @app.route('/shutdown/')
 def shutdown():
