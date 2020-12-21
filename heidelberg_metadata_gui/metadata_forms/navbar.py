@@ -19,6 +19,20 @@ def render_navbar():
                 ),
                 href="/",
                 id="nav_brand"
+            ),
+            dbc.Nav(
+                [
+                    dbc.Container(
+                        dbc.NavItem(
+                            html.A(
+                                id='close_gui', children='Close GUI', href='/shutdown',
+                                style={"font-size": "120%", "font-weight": "normal"}, className='nav-link'
+                            )
+                        )
+                    )
+                ],
+                horizontal='end',
+                className="ml-auto flex-nowrap mt-3 mt-md-0"
             )
         ],
         color="dark",

@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import redirect, request
 from flask import current_app as app
 
 
@@ -6,3 +6,16 @@ from flask import current_app as app
 def home():
     """Landing page."""
     return redirect('/metadata-forms/')
+
+
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+@app.route('/shutdown/')
+def shutdown():
+    
+    shutdown_server()
+    return 'Server down...'
