@@ -25,7 +25,6 @@ class MetadataForms(html.Div):
         """
         super().__init__([])
         self.parent_app = parent_app
-        self.converter_class = converter_class
         self.export_controller = False
         self.convert_controller = False
         self.get_metadata_controller = False
@@ -41,9 +40,14 @@ class MetadataForms(html.Div):
             parent_app=self.parent_app
         )
 
-        # # Get metadata schema from converter
-        self.converter = self.converter_class()
-        self.metadata_json_schema = self.converter.get_metadata_schema()
+        # If no schema file was passed, get metadata schema from converter
+        schema_path = parent_app.server.config['JSON_SCHEMA_PATH']
+        if Path(schema_path).is_file() and schema_path.split('.')[-1] == 'json':
+            with open(schema_path) as f:
+                self.metadata_json_schema = json.load(f)
+        else:
+            converter = converter_class()
+            self.metadata_json_schema = converter.get_metadata_schema()
 
         self.metadata_forms.schema = self.metadata_json_schema
         self.metadata_forms.construct_children_forms()
@@ -293,27 +297,14 @@ class MetadataForms(html.Div):
                 return [dash.no_update, {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, 
                         dash.no_update, dash.no_update, dash.no_update]
 
-            # # Get forms data
-            # alerts, source_data = self.source_forms.data_to_nested()
-
-            # if alerts is not None:
-            #     return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
-
             self.get_metadata_controller = False
-        
-            # Get metadata schema from converter
-            self.converter = self.converter_class()
 
-            # Get metadata data from converter
-            # self.metadata_json_data = self.converter.get_metadata()
-
+            # Clean form children if exists to render new one
             if self.metadata_forms.children_forms:
-                # Clean form children if exists to render new one
                 self.metadata_forms.children_forms = []
 
             self.metadata_forms.schema = self.metadata_json_schema
             self.metadata_forms.construct_children_forms()
-            # self.metadata_forms.update_data(data=self.metadata_json_data)
 
             return [self.metadata_forms, {'display': 'block'}, {'display': 'block'},
                     {'display': 'block'}, 1, alert_is_open, []]

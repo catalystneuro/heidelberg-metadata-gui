@@ -13,7 +13,7 @@ def init_app():
         app.config.from_object('heidelberg_metadata_gui.config.ConfigProduction')
 
     # Variables from ENV vars
-    app.config['SCHEMA_PATH'] = os.environ.get('SCHEMA_PATH', Path.cwd())
+    app.config['JSON_SCHEMA_PATH'] = os.environ.get('JSON_SCHEMA_PATH', str(Path.cwd()))
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
     with app.app_context():
