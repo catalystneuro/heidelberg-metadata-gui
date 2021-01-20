@@ -34,27 +34,43 @@ class MetadataForms(html.Div):
         if not self.downloads_path.is_dir():
             self.downloads_path.mkdir()
 
-        self.source_json_schema = converter_class.get_source_schema()
+        # self.source_json_schema = converter_class.get_source_schema()
 
-        # Source data Form
-        self.source_forms = SchemaFormContainer(
-            id='sourcedata',
-            schema=self.source_json_schema,
-            parent_app=self.parent_app
-        )
+        # # Source data Form
+        # self.source_forms = SchemaFormContainer(
+        #     id='sourcedata',
+        #     schema=self.source_json_schema,
+        #     parent_app=self.parent_app
+        # )
 
         self.metadata_forms = SchemaFormContainer(
             id='metadata',
             schema=dict(),
             parent_app=self.parent_app
         )
+
+        # # Get metadata schema from converter
+        # self.converter = self.converter_class()
+        # self.metadata_json_schema = self.converter.get_metadata_schema()
+
+        # # Get metadata data from converter
+        # self.metadata_json_data = self.converter.get_metadata()
+
+        # if self.metadata_forms.children_forms:
+        #     # Clean form children if exists to render new one
+        #     self.metadata_forms.children_forms = []
+
+        # self.metadata_forms.schema = self.metadata_json_schema
+        # self.metadata_forms.construct_children_forms()
+        # self.metadata_forms.update_data(data=self.metadata_json_data)
+
         self.style = {'background-color': '#f0f0f0', 'min-height': '100vh'}
 
         self.children = [
             dbc.Container([
                 dbc.Row([
                     html.Br(),
-                    dbc.Col(self.source_forms, width={'size': 12}),
+                    # dbc.Col(self.source_forms, width={'size': 12}),
                     dbc.Col(
                         dbc.Button('Get Metadata Form', id='get_metadata_btn', color='dark'),
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
@@ -123,7 +139,11 @@ class MetadataForms(html.Div):
                     )
                 ]),
                 dbc.Row(
-                    dbc.Col(id='metadata-col', width={'size': 12}),
+                    dbc.Col(
+                        id='metadata-col',
+                        # children=self.metadata_forms, 
+                        width={'size': 12}
+                    ),
                     style={'margin-top': '1%', 'margin-bottom': '10px'}
                 ),
                 html.Br(),
@@ -212,7 +232,8 @@ class MetadataForms(html.Div):
                 Output('alert_required_source', 'is_open'),
                 Output('alert_required_source', 'children')
             ],
-            [Input('sourcedata-output-update-finished-verification', 'children')],
+            # [Input('sourcedata-output-update-finished-verification', 'children')],
+            [Input('get_metadata_btn', 'n_clicks')],
             [
                 State('alert_required_source', 'is_open'),
                 State('button_load_metadata', 'style'),
@@ -239,16 +260,17 @@ class MetadataForms(html.Div):
                     self.metadata_forms.schema = dict()
                 return [self.metadata_forms, styles[0], styles[1], styles[2], None, alert_is_open, []]
 
-            # Get forms data
-            alerts, source_data = self.source_forms.data_to_nested()
+            # # Get forms data
+            # alerts, source_data = self.source_forms.data_to_nested()
 
-            if alerts is not None:
-                return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
+            # if alerts is not None:
+            #     return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
 
             self.get_metadata_controller = False
 
             # Get metadata schema from converter
-            self.converter = self.converter_class(source_data=source_data)
+            # self.converter = self.converter_class(source_data=source_data)
+            self.converter = self.converter_class()
             self.metadata_json_schema = self.converter.get_metadata_schema()
 
             # Get metadata data from converter
@@ -265,15 +287,15 @@ class MetadataForms(html.Div):
             return [self.metadata_forms, {'display': 'block'}, {'display': 'block'},
                     {'display': 'block'}, 1, alert_is_open, []]
 
-        @self.parent_app.callback(
-            Output('sourcedata-external-trigger-update-internal-dict', 'children'),
-            [Input('get_metadata_btn', 'n_clicks')]
-        )
-        def update_internal_sourcedata(click):
-            """Update sourcedata internal dictionary to Get Metadata Forms from it"""
-            if click:
-                self.get_metadata_controller = True
-                return str(np.random.rand())
+        # @self.parent_app.callback(
+        #     Output('sourcedata-external-trigger-update-internal-dict', 'children'),
+        #     [Input('get_metadata_btn', 'n_clicks')]
+        # )
+        # def update_internal_sourcedata(click):
+        #     """Update sourcedata internal dictionary to Get Metadata Forms from it"""
+        #     if click:
+        #         # self.get_metadata_controller = True
+        #         return str(np.random.rand())
 
         @self.parent_app.callback(
             Output({'type': 'external-trigger-update-links-values', 'index': 'metadata-external-trigger-update-links-values'}, 'children'),
