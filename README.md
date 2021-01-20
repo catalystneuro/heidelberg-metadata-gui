@@ -1,5 +1,5 @@
 # heidelberg-metadata-gui
-Metadata editing GUI interface, with automatic metadata fetching.
+Metadata editing GUI. Makes it easy to edit metadata related to neurophysiological experiments.
 
 
 # Install
@@ -19,7 +19,7 @@ On your browser, navigate to `localhost:5000`.
 
 You can run metadata-gui with optional arguments, for example:
 ```
-$ metadata-gui --data_path path_to/dataset/ --port XXXX
+$ metadata-gui --port XXXX
 ```
 
 # Running on docker

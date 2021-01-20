@@ -52,10 +52,10 @@ class HeidelbergNWBConverter:
                 Subject=get_schema_from_hdmf_class(pynwb.file.Subject)
             )
         )
-        metadata_schema['properties']['Ecephys'] = get_base_schema(tag='Ecephys')
-        metadata_schema['properties']['Ecephys']['properties']['Device'] = get_schema_from_hdmf_class(pynwb.device.Device)
-        metadata_schema['properties']['Ecephys']['properties']['ElectrodeGroup'] = get_schema_from_hdmf_class(pynwb.ecephys.ElectrodeGroup)
-        metadata_schema['properties']['Ecephys']['properties']['ElectricalSeries_raw'] = get_schema_from_hdmf_class(pynwb.ecephys.ElectricalSeries)
+        # metadata_schema['properties']['Ecephys'] = get_base_schema(tag='Ecephys')
+        # metadata_schema['properties']['Ecephys']['properties']['Device'] = get_schema_from_hdmf_class(pynwb.device.Device)
+        # metadata_schema['properties']['Ecephys']['properties']['ElectrodeGroup'] = get_schema_from_hdmf_class(pynwb.ecephys.ElectrodeGroup)
+        # metadata_schema['properties']['Ecephys']['properties']['ElectricalSeries_raw'] = get_schema_from_hdmf_class(pynwb.ecephys.ElectricalSeries)
         return metadata_schema
 
     def get_metadata(self):
