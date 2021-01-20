@@ -10,6 +10,7 @@ import base64
 from json_schema_to_dash_forms.forms import SchemaFormContainer
 from pathlib import Path
 import flask
+from heidelberg_metadata_gui.converter import HeidelbergNWBConverter
 
 
 class MetadataForms(html.Div):
@@ -66,17 +67,31 @@ class MetadataForms(html.Div):
 
         self.style = {'background-color': '#f0f0f0', 'min-height': '100vh'}
 
+
         self.children = [
             dbc.Container([
+                html.Div(id='alerts-div'),
                 dbc.Row([
                     html.Br(),
                     # dbc.Col(self.source_forms, width={'size': 12}),
-                    dbc.Col(
-                        dbc.Button('Get Metadata Form', id='get_metadata_btn', color='dark'),
-                        style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
-                        width={'size': 4}
-                    )
-                ]),
+                    dbc.Col([
+                        dbc.Label('Upload a new file: ', id='upload-file-label'),
+                        dcc.Upload(
+                            id='upload-json-schema',
+                            children=[
+                                'Drag and drop or Select Files',
+                            ],
+                            style={
+                                'borderWidth': '1px',
+                                'borderStyle': 'dashed',
+                                'borderRadius': '5px',
+                                'textAlign': 'center',
+                            },
+
+                        ),
+                        dbc.Button('Get metadata forms', id='upload-json-button', color='dark', style={'margin-top': '10px'})
+                    ], width=6)
+                ], style={"justify-content": 'center', 'padding-top': '20px'}),
                 dbc.Row([
                     dbc.Col(
                         dcc.Upload(dbc.Button('Load Metadata', color='dark'), id='button_load_metadata', style={'display': 'none'}),
@@ -152,6 +167,38 @@ class MetadataForms(html.Div):
                 dbc.Button(id='get_metadata_done', style={'display': 'none'})
             ], style={'min-height': '110vh'})
         ]
+
+        @self.parent_app.callback(
+            [
+                Output('alerts-div', 'children'),
+                Output('upload-file-label', 'children')
+            ],
+            [
+                Input('upload-json-schema', 'contents')
+            ],
+            [
+                State('upload-json-schema', 'filename')
+            ]
+        )
+        def get_metadata(contents, filename):
+            ctx = dash.callback_context
+            if not ctx.triggered:
+                return [dash.no_update, dash.no_update]
+
+            if not filename.endswith('.json'):
+                alert = dbc.Row([dbc.Col(dbc.Alert('File must be a json.', color='danger', dismissable=True, is_open=True), width={'size': 4})], style={'justify-content': 'center'})
+                return [alert, dash.no_update]
+
+            label_message = f'File uploaded:   {filename}'
+
+            content_type, content_string = contents.split(',')
+            decoded = base64.b64decode(content_string)
+            json_schema = json.loads(decoded)
+
+            self.metadata_json_schema = json_schema
+            self.get_metadata_controller = True
+
+            return [dash.no_update, label_message]
 
         @self.parent_app.callback(
             [
@@ -233,7 +280,7 @@ class MetadataForms(html.Div):
                 Output('alert_required_source', 'children')
             ],
             # [Input('sourcedata-output-update-finished-verification', 'children')],
-            [Input('get_metadata_btn', 'n_clicks')],
+            [Input('upload-json-button', 'n_clicks')],
             [
                 State('alert_required_source', 'is_open'),
                 State('button_load_metadata', 'style'),
@@ -267,11 +314,12 @@ class MetadataForms(html.Div):
             #     return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
 
             self.get_metadata_controller = False
-
+        
             # Get metadata schema from converter
             # self.converter = self.converter_class(source_data=source_data)
             self.converter = self.converter_class()
-            self.metadata_json_schema = self.converter.get_metadata_schema()
+
+            #self.metadata_json_schema = self.converter.get_metadata_schema()
 
             # Get metadata data from converter
             self.metadata_json_data = self.converter.get_metadata()
