@@ -61,6 +61,7 @@ class HeidelbergNWBConverter:
     def get_metadata(self):
         """Auto-fill as much of the metadata as possible."""
         metadata = get_basic_metadata()
+        metadata['NWBFile']['session_start_time'] = str(metadata['NWBFile']['session_start_time'])
         metadata['Ecephys'] = dict(
             Device=dict(name='Device_ecephys'),
             ElectrodeGroup=dict(

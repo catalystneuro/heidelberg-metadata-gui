@@ -1,0 +1,23 @@
+{
+    "NWBFile": {
+        "session_description": "session description",
+        "identifier": "d6ba3666-38dc-479d-aa62-75e06769d930",
+        "session_start_time": "1900-01-01 00:00:00"
+    },
+    "Ecephys": {
+        "Device": {
+            "name": "Device_ecephys"
+        },
+        "ElectrodeGroup": {
+            "name": "ElectrodeGroup",
+            "description": "description",
+            "location": "location",
+            "device": "Device_ecephys"
+        },
+        "ElectricalSeries_raw": {
+            "name": "ElectricalSeries_raw",
+            "description": "ADDME",
+            "rate": 1000.0
+        }
+    }
+}
