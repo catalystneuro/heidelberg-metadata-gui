@@ -13,19 +13,17 @@ from pathlib import Path
 import flask
 import importlib.resources as pkg_resources
 
-# from heidelberg_metadata_gui.converter import HeidelbergNWBConverter
-from ..converter import schema
+from .. import examples
 
 
 class MetadataForms(html.Div):
-    def __init__(self, parent_app, converter_class):
+    def __init__(self, parent_app):
         """
         Forms to interface user input with metadata.
 
         INPUT:
         ------
         parent_app : running Dash app
-        converter : NWB converter class
         """
         super().__init__([])
         self.parent_app = parent_app
@@ -50,14 +48,11 @@ class MetadataForms(html.Div):
             with open(schema_path) as f:
                 self.metadata_json_schema = json.load(f)
         else:
-            # converter = converter_class()
-            # self.metadata_json_schema = converter.get_metadata_schema()
-            with pkg_resources.open_text(schema, 'schema_metadata_custom.json') as f:
+            with pkg_resources.open_text(examples, 'schema_metadata_custom.json') as f:
                 self.metadata_json_schema = json.load(f)
 
         self.metadata_forms.schema = self.metadata_json_schema
         self.metadata_forms.construct_children_forms()
-        # self.metadata_forms.update_data(data=self.metadata_json_data)
 
         self.style = {'background-color': '#f0f0f0', 'min-height': '100vh'}
 
@@ -66,7 +61,6 @@ class MetadataForms(html.Div):
                 html.Div(id='alerts-div'),
                 dbc.Row([
                     html.Br(),
-                    # dbc.Col(self.source_forms, width={'size': 12}),
                     dbc.Col([
                         dbc.Label('Load a JSON schema: ', id='upload-file-label'),
                         dcc.Upload(
@@ -87,7 +81,7 @@ class MetadataForms(html.Div):
                 ], style={"justify-content": 'center', 'padding-top': '20px'}),
                 dbc.Row([
                     dbc.Col(
-                        dcc.Upload(dbc.Button('Load Metadata', color='dark'), id='button_load_metadata'),#, style={'display': 'none'}),
+                        dcc.Upload(dbc.Button('Load Metadata', color='dark'), id='button_load_metadata'),
                         width={'size': 2},
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     ),
@@ -119,7 +113,7 @@ class MetadataForms(html.Div):
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     ),
                     dbc.Col(
-                        dbc.Button('Refresh', id='button_refresh', color='dark'),#, style={'display': 'none'}),
+                        dbc.Button('Refresh', id='button_refresh', color='dark'),
                         width={'size': 2},
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     )
@@ -283,7 +277,6 @@ class MetadataForms(html.Div):
                 Output('alert_required_source', 'is_open'),
                 Output('alert_required_source', 'children')
             ],
-            # [Input('sourcedata-output-update-finished-verification', 'children')],
             [Input('upload-json-button', 'n_clicks')],
             [
                 State('alert_required_source', 'is_open'),
@@ -303,13 +296,6 @@ class MetadataForms(html.Div):
             """
 
             if not trigger or not self.get_metadata_controller:
-                # # If metadata forms defined reset to default state
-                # if self.metadata_forms.children_forms:
-                #     self.metadata_forms.children_forms = []
-                #     self.metadata_forms.children = self.metadata_forms.children_triggers
-                #     self.metadata_forms.data = dict()
-                #     self.metadata_forms.schema = dict()
-                # return [self.metadata_forms, styles[0], styles[1], styles[2], None, alert_is_open, []]
                 return [dash.no_update, {'display': 'block'}, {'display': 'block'}, {'display': 'block'},
                         None, alert_is_open, []]
 
@@ -325,16 +311,6 @@ class MetadataForms(html.Div):
 
             return [self.metadata_forms, {'display': 'block'}, {'display': 'block'},
                     {'display': 'block'}, 1, alert_is_open, []]
-
-        # @self.parent_app.callback(
-        #     Output('sourcedata-external-trigger-update-internal-dict', 'children'),
-        #     [Input('get_metadata_btn', 'n_clicks')]
-        # )
-        # def update_internal_sourcedata(click):
-        #     """Update sourcedata internal dictionary to Get Metadata Forms from it"""
-        #     if click:
-        #         # self.get_metadata_controller = True
-        #         return str(np.random.rand())
 
         @self.parent_app.callback(
             Output({'type': 'external-trigger-update-links-values', 'index': 'metadata-external-trigger-update-links-values'}, 'children'),
@@ -366,7 +342,6 @@ class MetadataForms(html.Div):
             trigger_source = ctx.triggered[0]['prop_id'].split('.')[0]
 
             if trigger_source != 'button_load_metadata' and click is None:
-                # output = []
                 return [], False, dash.no_update
 
             if trigger_source != 'button_load_metadata' and click is not None:
