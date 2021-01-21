@@ -314,6 +314,7 @@ class MetadataForms(html.Div):
             # Clean form children if exists to render new one
             if self.metadata_forms.children_forms:
                 self.metadata_forms.children_forms = []
+                self.metadata_forms.data = {}
 
             self.metadata_forms.schema = self.metadata_json_schema
             self.metadata_forms.construct_children_forms()
@@ -369,7 +370,7 @@ class MetadataForms(html.Div):
                 output = str(np.random.rand())
                 return output, False, dash.no_update
 
-            _ , content_string = contents.split(',')
+            _, content_string = contents.split(',')
             filename_extension = filename.split('.')[-1]
 
             # Update SchemaFormContainer internal data dictionary
