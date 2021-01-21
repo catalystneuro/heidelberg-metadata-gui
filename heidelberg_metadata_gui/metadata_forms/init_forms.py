@@ -15,6 +15,7 @@ def init_forms(server):
         suppress_callback_exceptions=True,
         routes_pathname_prefix='/metadata-forms/',
     )
+    dash_app.title = 'Metadata GUI'
 
     navbar = render_navbar()
     # Create Dash Layout

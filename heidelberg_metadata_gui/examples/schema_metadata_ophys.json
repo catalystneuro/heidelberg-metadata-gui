@@ -1,0 +1,410 @@
+{
+    "required": [],
+    "properties": {
+        "NWBFile": {
+            "required": [
+                "session_description",
+                "identifier",
+                "session_start_time"
+            ],
+            "properties": {
+                "session_description": {
+                    "type": "string",
+                    "format": "long",
+                    "description": "a description of the session where this data was generated"
+                },
+                "identifier": {
+                    "type": "string",
+                    "description": "a unique text identifier for the file"
+                },
+                "session_start_time": {
+                    "type": "string",
+                    "description": "the start date and time of the recording session",
+                    "format": "date-time"
+                },
+                "experimenter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "title": "experimenter"
+                    },
+                    "description": "name of person who performed experiment"
+                },
+                "experiment_description": {
+                    "type": "string",
+                    "description": "general description of the experiment"
+                },
+                "session_id": {
+                    "type": "string",
+                    "description": "lab-specific ID for the session"
+                },
+                "institution": {
+                    "type": "string",
+                    "description": "institution(s) where experiment is performed"
+                },
+                "notes": {
+                    "type": "string",
+                    "description": "Notes about the experiment."
+                },
+                "pharmacology": {
+                    "type": "string",
+                    "description": "Description of drugs used, including how and when they were administered. Anesthesia(s), painkiller(s), etc., plus dosage, concentration, etc."
+                },
+                "protocol": {
+                    "type": "string",
+                    "description": "Experimental protocol, if applicable. E.g., include IACUC protocol"
+                },
+                "related_publications": {
+                    "type": "string",
+                    "description": "Publication information.PMID, DOI, URL, etc. If multiple, concatenate together and describe which is which. such as PMID, DOI, URL, etc"
+                },
+                "slices": {
+                    "type": "string",
+                    "description": "Description of slices, including information about preparation thickness, orientation, temperature and bath solution"
+                },
+                "source_script": {
+                    "type": "string",
+                    "description": "Script file used to create this NWB file."
+                },
+                "source_script_file_name": {
+                    "type": "string",
+                    "description": "Name of the source_script file"
+                },
+                "data_collection": {
+                    "type": "string",
+                    "description": "Notes about data collection and analysis."
+                },
+                "surgery": {
+                    "type": "string",
+                    "description": "Narrative description about surgery/surgeries, including date(s) and who performed surgery."
+                },
+                "virus": {
+                    "type": "string",
+                    "description": "Information about virus(es) used in experiments, including virus ID, source, date made, injection location, volume, etc."
+                },
+                "stimulus_notes": {
+                    "type": "string",
+                    "description": "Notes about stimuli, such as how and where presented."
+                },
+                "lab": {
+                    "type": "string",
+                    "description": "lab where experiment was performed"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "pynwb.file.NWBFile"
+        },
+        "Subject": {
+            "required": [],
+            "properties": {
+                "age": {
+                    "description": "the age of the subject",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "a description of the subject",
+                    "type": "string"
+                },
+                "genotype": {
+                    "description": "the genotype of the subject",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "the sex of the subject",
+                    "type": "string"
+                },
+                "species": {
+                    "description": "the species of the subject",
+                    "type": "string"
+                },
+                "subject_id": {
+                    "description": "a unique identifier for the subject",
+                    "type": "string"
+                },
+                "weight": {
+                    "description": "the weight of the subject",
+                    "type": "string"
+                },
+                "date_of_birth": {
+                    "description": "datetime of date of birth. May be supplied instead of age.",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "pynwb.file.Subject"
+        },
+        "Ophys": {
+            "required": [],
+            "properties": {
+                "Device": {
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "name": {
+                            "description": "the name of this device",
+                            "type": "string"
+                        },
+                        "description": {
+                            "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
+                            "type": "string"
+                        },
+                        "manufacturer": {
+                            "description": "the name of the manufacturer of this device",
+                            "type": "string"
+                        }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "tag": "pynwb.device.Device"
+                },
+                "ImagingPlane": {
+                    "required": [
+                        "name",
+                        "optical_channel",
+                        "description",
+                        "device",
+                        "excitation_lambda",
+                        "indicator",
+                        "location"
+                    ],
+                    "properties": {
+                        "name": {
+                            "description": "the name of this container",
+                            "type": "string"
+                        },
+                        "optical_channel": {
+                            "description": "One of possibly many groups storing channel-specific data.",
+                            "type": "array",
+                            "items": [
+                                {
+                                    "required": [
+                                        "name",
+                                        "description",
+                                        "emission_lambda"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "description": "the name of this electrode",
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "description": "Any notes or comments about the channel.",
+                                            "type": "string"
+                                        },
+                                        "emission_lambda": {
+                                            "description": "Emission wavelength for channel, in nm.",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "tag": "pynwb.ophys.OpticalChannel"
+                                }
+                            ],
+                            "minItems": 1,
+                            "maxItems": 1
+                        },
+                        "description": {
+                            "description": "Description of this ImagingPlane.",
+                            "type": "string"
+                        },
+                        "device": {
+                            "description": "the device that was used to record",
+                            "type": "string",
+                            "target": "pynwb.device.Device"
+                        },
+                        "excitation_lambda": {
+                            "description": "Excitation wavelength in nm.",
+                            "type": "number"
+                        },
+                        "indicator": {
+                            "description": "Calcium indicator",
+                            "type": "string"
+                        },
+                        "location": {
+                            "description": "Location of image plane.",
+                            "type": "string"
+                        },
+                        "imaging_rate": {
+                            "description": "Rate images are acquired, in Hz. If the corresponding TimeSeries is present, the rate should be stored there instead.",
+                            "type": "number"
+                        },
+                        "conversion": {
+                            "description": "DEPRECATED: Multiplier to get from stored values to specified unit (e.g., 1e-3 for millimeters) Deprecated in favor of origin_coords and grid_spacing.",
+                            "type": "number",
+                            "default": 1.0
+                        },
+                        "unit": {
+                            "description": "DEPRECATED: Base unit that coordinates are stored in (e.g., Meters). Deprecated in favor of origin_coords_unit and grid_spacing_unit.",
+                            "type": "string",
+                            "default": "meters"
+                        },
+                        "reference_frame": {
+                            "description": "Describes position and reference frame of manifold based on position of first element in manifold.",
+                            "type": "string"
+                        },
+                        "origin_coords_unit": {
+                            "description": "Measurement units for origin_coords. The default value is 'meters'.",
+                            "type": "string",
+                            "default": "meters"
+                        },
+                        "grid_spacing_unit": {
+                            "description": "Measurement units for grid_spacing. The default value is 'meters'.",
+                            "type": "string",
+                            "default": "meters"
+                        }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "tag": "pynwb.ophys.ImagingPlane"
+                },
+                "TwoPhotonSeries_green": {
+                    "required": [
+                        "name",
+                        "imaging_plane"
+                    ],
+                    "properties": {
+                        "name": {
+                            "description": "The name of this TimeSeries dataset",
+                            "type": "string"
+                        },
+                        "imaging_plane": {
+                            "description": "Imaging plane class/pointer.",
+                            "type": "string",
+                            "target": "pynwb.ophys.ImagingPlane"
+                        },
+                        "unit": {
+                            "description": "The base unit of measurement (should be SI unit)",
+                            "type": "string"
+                        },
+                        "format": {
+                            "description": "Format of image. Three types: 1) Image format; tiff, png, jpg, etc. 2) external 3) raw.",
+                            "type": "string"
+                        },
+                        "pmt_gain": {
+                            "description": "Photomultiplier gain.",
+                            "type": "number"
+                        },
+                        "scan_line_rate": {
+                            "description": "Lines imaged per second. This is also stored in /general/optophysiology but is kept here as it is useful information for analysis, and so good to be stored w/ the actual data.",
+                            "type": "number"
+                        },
+                        "resolution": {
+                            "description": "The smallest meaningful difference (in specified unit) between values in data",
+                            "type": "number",
+                            "default": -1.0
+                        },
+                        "conversion": {
+                            "description": "Scalar to multiply each element in data to convert it to the specified unit",
+                            "type": "number",
+                            "default": 1.0
+                        },
+                        "starting_time": {
+                            "description": "The timestamp of the first sample",
+                            "type": "number"
+                        },
+                        "rate": {
+                            "description": "Sampling rate in Hz",
+                            "type": "number"
+                        },
+                        "comments": {
+                            "description": "Human-readable comments about this TimeSeries dataset",
+                            "type": "string",
+                            "default": "no comments"
+                        },
+                        "description": {
+                            "description": "Description of this TimeSeries dataset",
+                            "type": "string",
+                            "default": "no description"
+                        }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "tag": "pynwb.ophys.TwoPhotonSeries"
+                },
+                "Fluorescence": {
+                    "required": [],
+                    "properties": {
+                        "roi_response_series": {
+                            "description": "RoiResponseSeries to store in this interface",
+                            "type": "array",
+                            "items": [
+                                {
+                                    "required": [
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "description": "The name of this TimeSeries dataset",
+                                            "type": "string"
+                                        },
+                                        "unit": {
+                                            "description": "The base unit of measurement (should be SI unit)",
+                                            "type": "string"
+                                        },
+                                        "resolution": {
+                                            "description": "The smallest meaningful difference (in specified unit) between values in data",
+                                            "type": "number",
+                                            "default": -1.0
+                                        },
+                                        "conversion": {
+                                            "description": "Scalar to multiply each element in data to convert it to the specified unit",
+                                            "type": "number",
+                                            "default": 1.0
+                                        },
+                                        "starting_time": {
+                                            "description": "The timestamp of the first sample",
+                                            "type": "number"
+                                        },
+                                        "rate": {
+                                            "description": "Sampling rate in Hz",
+                                            "type": "number"
+                                        },
+                                        "comments": {
+                                            "description": "Human-readable comments about this TimeSeries dataset",
+                                            "type": "string",
+                                            "default": "no comments"
+                                        },
+                                        "description": {
+                                            "description": "Description of this TimeSeries dataset",
+                                            "type": "string",
+                                            "default": "no description"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "tag": "pynwb.ophys.RoiResponseSeries"
+                                }
+                            ],
+                            "minItems": 1,
+                            "maxItems": 1,
+                            "default": {}
+                        },
+                        "name": {
+                            "description": "the name of this container",
+                            "type": "string",
+                            "default": "Fluorescence"
+                        }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "tag": "pynwb.ophys.Fluorescence"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "Ophys"
+        }
+    },
+    "type": "object",
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "metadata.schema.json",
+    "title": "Metadata",
+    "description": "Schema for the metadata",
+    "version": "0.1.0"
+}
