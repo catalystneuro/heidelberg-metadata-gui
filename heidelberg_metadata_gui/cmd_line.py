@@ -13,9 +13,9 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--data_path",
+        "--schema_path",
         default='.',
-        help="Path to datasets."
+        help="Path to json schema."
     )
     parser.add_argument(
         "--port",
@@ -38,12 +38,12 @@ def cmd_line_shortcut():
     run_args = parse_arguments()
 
     # Set ENV variables for app
-    data_path = str(Path(run_args.data_path))
-    os.environ['DATA_PATH'] = data_path
+    schema_path = str(Path(run_args.schema_path))
+    os.environ['JSON_SCHEMA_PATH'] = schema_path
     os.environ['FLASK_ENV'] = 'production'
 
     print(f'Metadata editing GUI running on localhost:{run_args.port}')
-    print(f'Data path: {data_path}')
+    print(f'Schema path: {schema_path}')
     if run_args.dev:
         os.environ['FLASK_ENV'] = 'development'
         print('Running in development mode')

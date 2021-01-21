@@ -4,27 +4,29 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import numpy as np
+from jsonschema import validate
 import json
 import yaml
 import base64
 from json_schema_to_dash_forms.forms import SchemaFormContainer
 from pathlib import Path
 import flask
+import importlib.resources as pkg_resources
+
+from .. import examples
 
 
 class MetadataForms(html.Div):
-    def __init__(self, parent_app, converter_class):
+    def __init__(self, parent_app):
         """
         Forms to interface user input with metadata.
 
         INPUT:
         ------
         parent_app : running Dash app
-        converter : NWB converter class
         """
         super().__init__([])
         self.parent_app = parent_app
-        self.converter_class = converter_class
         self.export_controller = False
         self.convert_controller = False
         self.get_metadata_controller = False
@@ -34,42 +36,58 @@ class MetadataForms(html.Div):
         if not self.downloads_path.is_dir():
             self.downloads_path.mkdir()
 
-        self.source_json_schema = converter_class.get_source_schema()
-
-        # Source data Form
-        self.source_forms = SchemaFormContainer(
-            id='sourcedata',
-            schema=self.source_json_schema,
-            parent_app=self.parent_app
-        )
-
         self.metadata_forms = SchemaFormContainer(
             id='metadata',
             schema=dict(),
             parent_app=self.parent_app
         )
+
+        # If no schema file was passed, get metadata schema from converter
+        schema_path = parent_app.server.config['JSON_SCHEMA_PATH']
+        if Path(schema_path).is_file() and schema_path.split('.')[-1] == 'json':
+            with open(schema_path) as f:
+                self.metadata_json_schema = json.load(f)
+        else:
+            with pkg_resources.open_text(examples, 'schema_metadata_custom.json') as f:
+                self.metadata_json_schema = json.load(f)
+
+        self.metadata_forms.schema = self.metadata_json_schema
+        self.metadata_forms.construct_children_forms()
+
         self.style = {'background-color': '#f0f0f0', 'min-height': '100vh'}
 
         self.children = [
             dbc.Container([
+                html.Div(id='alerts-div'),
                 dbc.Row([
                     html.Br(),
-                    dbc.Col(self.source_forms, width={'size': 12}),
-                    dbc.Col(
-                        dbc.Button('Get Metadata Form', id='get_metadata_btn', color='dark'),
-                        style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
-                        width={'size': 4}
-                    )
-                ]),
+                    dbc.Col([
+                        dbc.Label('Load a JSON schema: ', id='upload-file-label'),
+                        dcc.Upload(
+                            id='upload-json-schema',
+                            children=[
+                                'Drag and drop or Select Files',
+                            ],
+                            style={
+                                'borderWidth': '1px',
+                                'borderStyle': 'dashed',
+                                'borderRadius': '5px',
+                                'textAlign': 'center',
+                            },
+
+                        ),
+                        dbc.Button('Schema to Forms', id='upload-json-button', color='dark', style={'margin-top': '10px'})
+                    ], width=6)
+                ], style={"justify-content": 'center', 'padding-top': '20px'}),
                 dbc.Row([
                     dbc.Col(
-                        dcc.Upload(dbc.Button('Load Metadata', color='dark'), id='button_load_metadata', style={'display': 'none'}),
+                        dcc.Upload(dbc.Button('Load Metadata', color='dark'), id='button_load_metadata'),
                         width={'size': 2},
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     ),
                     dbc.Col(
                         html.Div([
-                            dbc.Button('Export Metadata', id='button_export_metadata', color='dark', style={'display': 'none'}),
+                            dbc.Button('Export Metadata', id='button_export_metadata', color='dark'),#, style={'display': 'none'}),
                             dbc.Popover(
                                 [
                                     dbc.PopoverBody([
@@ -95,7 +113,7 @@ class MetadataForms(html.Div):
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     ),
                     dbc.Col(
-                        dbc.Button('Refresh', id='button_refresh', color='dark', style={'display': 'none'}),
+                        dbc.Button('Refresh', id='button_refresh', color='dark'),
                         width={'size': 2},
                         style={'justify-content': 'left', 'text-align': 'left', 'margin-top': '1%'},
                     )
@@ -122,8 +140,23 @@ class MetadataForms(html.Div):
                         )
                     )
                 ]),
+                dbc.Row([
+                    dbc.Col(
+                        dbc.Alert(
+                            children=[],
+                            id="alert_validation",
+                            dismissable=True,
+                            is_open=False,
+                            color='danger'
+                        )
+                    )
+                ]),
                 dbc.Row(
-                    dbc.Col(id='metadata-col', width={'size': 12}),
+                    dbc.Col(
+                        id='metadata-col',
+                        children=self.metadata_forms,
+                        width={'size': 12}
+                    ),
                     style={'margin-top': '1%', 'margin-bottom': '10px'}
                 ),
                 html.Br(),
@@ -132,6 +165,38 @@ class MetadataForms(html.Div):
                 dbc.Button(id='get_metadata_done', style={'display': 'none'})
             ], style={'min-height': '110vh'})
         ]
+
+        @self.parent_app.callback(
+            [
+                Output('alerts-div', 'children'),
+                Output('upload-file-label', 'children')
+            ],
+            [
+                Input('upload-json-schema', 'contents')
+            ],
+            [
+                State('upload-json-schema', 'filename')
+            ]
+        )
+        def get_metadata_schema(contents, filename):
+            ctx = dash.callback_context
+            if not ctx.triggered:
+                return [dash.no_update, dash.no_update]
+
+            if not filename.endswith('.json'):
+                alert = dbc.Row([dbc.Col(dbc.Alert('File must be a json.', color='danger', dismissable=True, is_open=True), width={'size': 4})], style={'justify-content': 'center'})
+                return [alert, dash.no_update]
+
+            label_message = f'Schema file:   {filename}'
+
+            content_type, content_string = contents.split(',')
+            decoded = base64.b64decode(content_string)
+            json_schema = json.loads(decoded)
+
+            self.metadata_json_schema = json_schema
+            self.get_metadata_controller = True
+
+            return [dash.no_update, label_message]
 
         @self.parent_app.callback(
             [
@@ -212,7 +277,7 @@ class MetadataForms(html.Div):
                 Output('alert_required_source', 'is_open'),
                 Output('alert_required_source', 'children')
             ],
-            [Input('sourcedata-output-update-finished-verification', 'children')],
+            [Input('upload-json-button', 'n_clicks')],
             [
                 State('alert_required_source', 'is_open'),
                 State('button_load_metadata', 'style'),
@@ -231,49 +296,21 @@ class MetadataForms(html.Div):
             """
 
             if not trigger or not self.get_metadata_controller:
-                # If metadata forms defined reset to default state
-                if self.metadata_forms.children_forms:
-                    self.metadata_forms.children_forms = []
-                    self.metadata_forms.children = self.metadata_forms.children_triggers
-                    self.metadata_forms.data = dict()
-                    self.metadata_forms.schema = dict()
-                return [self.metadata_forms, styles[0], styles[1], styles[2], None, alert_is_open, []]
-
-            # Get forms data
-            alerts, source_data = self.source_forms.data_to_nested()
-
-            if alerts is not None:
-                return [self.metadata_forms, styles[0], styles[1], styles[2], None, True, alerts]
+                return [dash.no_update, {'display': 'block'}, {'display': 'block'}, {'display': 'block'},
+                        None, alert_is_open, []]
 
             self.get_metadata_controller = False
 
-            # Get metadata schema from converter
-            self.converter = self.converter_class(source_data=source_data)
-            self.metadata_json_schema = self.converter.get_metadata_schema()
-
-            # Get metadata data from converter
-            self.metadata_json_data = self.converter.get_metadata()
-
+            # Clean form children if exists to render new one
             if self.metadata_forms.children_forms:
-                # Clean form children if exists to render new one
                 self.metadata_forms.children_forms = []
+                self.metadata_forms.data = {}
 
             self.metadata_forms.schema = self.metadata_json_schema
             self.metadata_forms.construct_children_forms()
-            self.metadata_forms.update_data(data=self.metadata_json_data)
 
             return [self.metadata_forms, {'display': 'block'}, {'display': 'block'},
                     {'display': 'block'}, 1, alert_is_open, []]
-
-        @self.parent_app.callback(
-            Output('sourcedata-external-trigger-update-internal-dict', 'children'),
-            [Input('get_metadata_btn', 'n_clicks')]
-        )
-        def update_internal_sourcedata(click):
-            """Update sourcedata internal dictionary to Get Metadata Forms from it"""
-            if click:
-                self.get_metadata_controller = True
-                return str(np.random.rand())
 
         @self.parent_app.callback(
             Output({'type': 'external-trigger-update-links-values', 'index': 'metadata-external-trigger-update-links-values'}, 'children'),
@@ -284,7 +321,11 @@ class MetadataForms(html.Div):
                 return str(np.random.rand())
 
         @self.parent_app.callback(
-            Output({'type': 'external-trigger-update-forms-values', 'index': 'metadata-external-trigger-update-forms-values'}, 'children'),
+            [
+                Output({'type': 'external-trigger-update-forms-values', 'index': 'metadata-external-trigger-update-forms-values'}, 'children'),
+                Output('alert_validation', 'is_open'),
+                Output('alert_validation', 'children')
+            ],
             [
                 Input('button_load_metadata', 'contents'),
                 Input('get_metadata_done', 'n_clicks')
@@ -301,31 +342,40 @@ class MetadataForms(html.Div):
             trigger_source = ctx.triggered[0]['prop_id'].split('.')[0]
 
             if trigger_source != 'button_load_metadata' and click is None:
-                output = []
-                return output
+                return [], False, dash.no_update
 
             if trigger_source != 'button_load_metadata' and click is not None:
+                # Trigger update of React components
                 output = str(np.random.rand())
-                return output
+                return output, False, dash.no_update
 
-            content_type, content_string = contents.split(',')
+            _, content_string = contents.split(',')
             filename_extension = filename.split('.')[-1]
 
             # Update SchemaFormContainer internal data dictionary
             if filename_extension == 'json':
                 bs4decode = base64.b64decode(content_string)
                 json_string = bs4decode.decode('utf8').replace("'", '"')
-                self.metadata_json_data = json.loads(json_string)
-                self.metadata_forms.update_data(data=self.metadata_json_data)
+                new_metadata = json.loads(json_string)
             elif filename_extension in ['yaml', 'yml']:
                 bs4decode = base64.b64decode(content_string)
                 yaml_data = yaml.load(bs4decode, Loader=yaml.BaseLoader)
-                self.metadata_json_data = yaml_data
-                self.metadata_forms.update_data(data=self.metadata_json_data)
+                new_metadata = yaml_data
+
+            # Validate agains current schema
+            try:
+                validate(instance=new_metadata, schema=self.metadata_json_schema)
+            except Exception as er:
+                validation_error = f'\nFailed because: {er.message}'
+                return dash.no_update, True, validation_error
+
+            # If validated, update forms
+            self.metadata_json_data = new_metadata
+            self.metadata_forms.update_data(data=self.metadata_json_data)
+
             # Trigger update of React components
             output = str(np.random.rand())
-
-            return output
+            return output, False, dash.no_update
 
         @self.parent_app.server.route('/downloads/<path:filename>')
         def download_file(filename):

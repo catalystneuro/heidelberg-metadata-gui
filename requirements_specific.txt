@@ -1,4 +1,3 @@
--e git+https://github.com/catalystneuro/allen-oephys-to-nwb.git@e29c8dc8e5834d49312552b7fc05cde8bec96c58#egg=allen_to_nwb
 -e git+https://github.com/catalystneuro/json-schema-to-dash-forms.git@67f589f6113cdc5e28809b8ca88727ec77b20ef0#egg=json_schema_to_dash_forms
 hdmf @ git+https://github.com/hdmf-dev/hdmf.git@64c1c97ee73d66305006c34b57b9537fb9479635
 -e git+https://github.com/catalystneuro/nwb-conversion-tools.git@cbfbdd88c554fc3c4df6d8c6e6fd204b90c503bb#egg=nwb_conversion_tools

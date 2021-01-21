@@ -1,1 +1,0 @@
-from .heidelberg_converter import HeidelbergNWBConverter
