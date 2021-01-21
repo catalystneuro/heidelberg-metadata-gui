@@ -11,7 +11,10 @@ import base64
 from json_schema_to_dash_forms.forms import SchemaFormContainer
 from pathlib import Path
 import flask
-from heidelberg_metadata_gui.converter import HeidelbergNWBConverter
+import importlib.resources as pkg_resources
+
+# from heidelberg_metadata_gui.converter import HeidelbergNWBConverter
+from ..converter import schema
 
 
 class MetadataForms(html.Div):
@@ -47,15 +50,16 @@ class MetadataForms(html.Div):
             with open(schema_path) as f:
                 self.metadata_json_schema = json.load(f)
         else:
-            converter = converter_class()
-            self.metadata_json_schema = converter.get_metadata_schema()
+            # converter = converter_class()
+            # self.metadata_json_schema = converter.get_metadata_schema()
+            with pkg_resources.open_text(schema, 'schema_metadata_custom.json') as f:
+                self.metadata_json_schema = json.load(f)
 
         self.metadata_forms.schema = self.metadata_json_schema
         self.metadata_forms.construct_children_forms()
         # self.metadata_forms.update_data(data=self.metadata_json_data)
 
         self.style = {'background-color': '#f0f0f0', 'min-height': '100vh'}
-
 
         self.children = [
             dbc.Container([
