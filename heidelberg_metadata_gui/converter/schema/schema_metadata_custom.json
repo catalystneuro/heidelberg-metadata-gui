@@ -1,0 +1,160 @@
+{
+    "required": [],
+    "properties": {
+        "Custom": {
+            "required": [
+                "institution",
+                "lab"
+            ],
+            "properties": {
+                "institution": {
+                    "type": "string",
+                    "description": "institution(s) where experiment is performed"
+                },
+                "lab": {
+                    "type": "string",
+                    "description": "lab where experiment was performed"
+                },
+                "long_description": {
+                    "type": "string",
+                    "format": "long",
+                    "description": "a description of the session where this data was generated"
+                },
+                "session_start_time": {
+                    "type": "string",
+                    "description": "the start date and time of the recording session",
+                    "format": "date-time"
+                },
+                "my_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "title": "my_tags"
+                    },
+                    "description": "description for this field"
+                },
+                "numerical_values": {
+                    "description": "description for this field",
+                    "type": "number",
+                    "default": 1.0
+                },
+                "devices": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": [
+                      {
+                          "required": [
+                              "name"
+                          ],
+                          "properties": {
+                              "name": {
+                                  "description": "the name of this device",
+                                  "type": "string"
+                              },
+                              "description": {
+                                  "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
+                                  "type": "string"
+                              },
+                              "manufacturer": {
+                                  "description": "the name of the manufacturer of this device",
+                                  "type": "string"
+                              }
+                          },
+                          "type": "object",
+                          "additionalProperties": false,
+                          "tag": "pynwb.device.Device"
+                      },
+                      {
+                          "required": [
+                              "name"
+                          ],
+                          "properties": {
+                              "name": {
+                                  "description": "the name of this device",
+                                  "type": "string"
+                              },
+                              "description": {
+                                  "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
+                                  "type": "string"
+                              },
+                              "manufacturer": {
+                                  "description": "the name of the manufacturer of this device",
+                                  "type": "string"
+                              }
+                          },
+                          "type": "object",
+                          "additionalProperties": false,
+                          "tag": "pynwb.device.Device"
+                      }
+                    ]
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "main.custom"
+        },
+        "Electrophysiology": {
+            "required": [],
+            "properties": {
+                "ElectricalSeries_raw": {
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "device": {
+                            "description": "the device that was used to record from this electrode group",
+                            "type": "string",
+                            "target": "pynwb.device.Device"
+                        },
+                        "name": {
+                            "description": "The name of this TimeSeries dataset",
+                            "type": "string"
+                        },
+                        "resolution": {
+                            "description": "The smallest meaningful difference (in specified unit) between values in data",
+                            "type": "number",
+                            "default": -1.0
+                        },
+                        "conversion": {
+                            "description": "Scalar to multiply each element in data to convert it to the specified unit",
+                            "type": "number",
+                            "default": 1.0
+                        },
+                        "starting_time": {
+                            "description": "The timestamp of the first sample",
+                            "type": "number"
+                        },
+                        "rate": {
+                            "description": "Sampling rate in Hz",
+                            "type": "number"
+                        },
+                        "comments": {
+                            "description": "Human-readable comments about this TimeSeries dataset",
+                            "type": "string",
+                            "default": "no comments"
+                        },
+                        "description": {
+                            "description": "Description of this TimeSeries dataset",
+                            "type": "string",
+                            "default": "no description"
+                        }
+                    },
+                    "type": "object",
+                    "additionalProperties": false,
+                    "tag": "pynwb.ecephys.ElectricalSeries"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "Ecephys"
+        }
+    },
+    "type": "object",
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "metadata.schema.json",
+    "title": "Custom Metadata",
+    "description": "Schema for custom metadata",
+    "version": "0.1.0"
+}
