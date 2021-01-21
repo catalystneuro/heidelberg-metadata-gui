@@ -156,7 +156,7 @@ class MetadataForms(html.Div):
                 dbc.Row(
                     dbc.Col(
                         id='metadata-col',
-                        children=self.metadata_forms, 
+                        children=self.metadata_forms,
                         width={'size': 12}
                     ),
                     style={'margin-top': '1%', 'margin-bottom': '10px'}
@@ -180,7 +180,7 @@ class MetadataForms(html.Div):
                 State('upload-json-schema', 'filename')
             ]
         )
-        def get_metadata(contents, filename):
+        def get_metadata_schema(contents, filename):
             ctx = dash.callback_context
             if not ctx.triggered:
                 return [dash.no_update, dash.no_update]
@@ -306,7 +306,7 @@ class MetadataForms(html.Div):
                 #     self.metadata_forms.data = dict()
                 #     self.metadata_forms.schema = dict()
                 # return [self.metadata_forms, styles[0], styles[1], styles[2], None, alert_is_open, []]
-                return [dash.no_update, {'display': 'block'}, {'display': 'block'}, {'display': 'block'}, 
+                return [dash.no_update, {'display': 'block'}, {'display': 'block'}, {'display': 'block'},
                         None, alert_is_open, []]
 
             self.get_metadata_controller = False
@@ -386,7 +386,7 @@ class MetadataForms(html.Div):
             # Validate agains current schema
             try:
                 validate(instance=new_metadata, schema=self.metadata_json_schema)
-            except Exception as er: 
+            except Exception as er:
                 validation_error = f'\nFailed because: {er.message}'
                 return dash.no_update, True, validation_error
 

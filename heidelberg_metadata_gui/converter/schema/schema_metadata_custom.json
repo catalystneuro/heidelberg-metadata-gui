@@ -38,6 +38,11 @@
                     "type": "number",
                     "default": 1.0
                 },
+                "subject_sex": {
+                    "type": "string",
+                    "enum": ["M", "F", "U", "O"],
+                    "default": "U"
+                },
                 "devices": {
                     "type": "array",
                     "minItems": 2,
