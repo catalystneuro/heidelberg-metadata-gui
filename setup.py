@@ -16,16 +16,16 @@ with open('requirements.txt') as f:
 setup(
     name='heidelberg-metadata-gui',
     version='0.1.0',
-    description='Web graphical user interface for Metadata fetching and editing',
+    description='Web graphical user interface for Metadata handling',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    author='Luiz Tauffer and Vinicius Camozzato Vaz',
-    author_email='luiz@taufferconsulting.com',
+    author='Luiz Tauffer, Vinicius Camozzato Vaz and Ben Dichter',
+    author_email='ben.dichter@gmail.com',
     url='https://github.com/catalystneuro/heidelberg-metadata-gui',
     packages=find_packages(),
     package_data={'heidelberg_metadata_gui': [
-        'converter/schema/*.yml',
-        'converter/schema/*.json',
+        'examples/*.yml',
+        'examples/*.json',
         '*.ini',
         'assets/*.png',
         'assets/*.css'
