@@ -1,7 +1,17 @@
 {
+    "type": "object",
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "metadata.schema.json",
+    "title": "Metadata",
+    "description": "Schema for the metadata",
+    "version": "0.1.0",
     "required": [],
     "properties": {
         "NWBFile": {
+            "type": "object",
+            "additionalProperties": false,
+            "tag": "pynwb.file.NWBFile",
             "required": [
                 "session_description",
                 "identifier",
@@ -90,10 +100,7 @@
                     "type": "string",
                     "description": "lab where experiment was performed"
                 }
-            },
-            "type": "object",
-            "additionalProperties": false,
-            "tag": "pynwb.file.NWBFile"
+            }
         },
         "Subject": {
             "required": [],
@@ -399,12 +406,5 @@
             "additionalProperties": false,
             "tag": "Ophys"
         }
-    },
-    "type": "object",
-    "additionalProperties": false,
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "metadata.schema.json",
-    "title": "Metadata",
-    "description": "Schema for the metadata",
-    "version": "0.1.0"
+    }
 }

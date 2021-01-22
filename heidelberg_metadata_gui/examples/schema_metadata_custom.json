@@ -1,4 +1,11 @@
 {
+    "type": "object",
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "metadata.schema.json",
+    "title": "Custom Metadata",
+    "description": "Schema for custom metadata",
+    "version": "0.1.0",
     "required": [],
     "properties": {
         "Custom": {
@@ -154,12 +161,5 @@
             "additionalProperties": false,
             "tag": "Ecephys"
         }
-    },
-    "type": "object",
-    "additionalProperties": false,
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "metadata.schema.json",
-    "title": "Custom Metadata",
-    "description": "Schema for custom metadata",
-    "version": "0.1.0"
+    }
 }
