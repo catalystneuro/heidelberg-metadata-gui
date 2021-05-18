@@ -380,7 +380,7 @@ class MetadataForms(html.Div):
         @self.parent_app.server.route('/downloads/<path:filename>')
         def download_file(filename):
             return flask.send_from_directory(
-                directory=self.downloads_path,
-                filename=filename,
+                self.downloads_path,
+                filename,
                 as_attachment=True
             )
