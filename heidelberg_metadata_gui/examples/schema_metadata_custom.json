@@ -54,52 +54,39 @@
                     "type": "array",
                     "minItems": 2,
                     "maxItems": 2,
-                    "items": [
-                      {
-                          "required": [
-                              "name"
-                          ],
-                          "properties": {
-                              "name": {
-                                  "description": "the name of this device",
-                                  "type": "string"
-                              },
-                              "description": {
-                                  "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
-                                  "type": "string"
-                              },
-                              "manufacturer": {
-                                  "description": "the name of the manufacturer of this device",
-                                  "type": "string"
-                              }
-                          },
-                          "type": "object",
-                          "additionalProperties": false,
-                          "tag": "pynwb.device.Device"
-                      },
-                      {
-                          "required": [
-                              "name"
-                          ],
-                          "properties": {
-                              "name": {
-                                  "description": "the name of this device",
-                                  "type": "string"
-                              },
-                              "description": {
-                                  "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
-                                  "type": "string"
-                              },
-                              "manufacturer": {
-                                  "description": "the name of the manufacturer of this device",
-                                  "type": "string"
-                              }
-                          },
-                          "type": "object",
-                          "additionalProperties": false,
-                          "tag": "pynwb.device.Device"
-                      }
+                    "items": {
+                        "$ref": "#/properties/Custom/properties/definitions/Device"
+                    },
+                    "default": [
+                        {
+                            "name": "custom_device",
+                            "description": "no description"
+                        }
                     ]
+                },
+                "definitions": {
+                    "Device": {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "description": "the name of this device",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "description": "the name of the manufacturer of this device",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "additionalProperties": false,
+                        "tag": "pynwb.device.Device"
+                    }
                 }
             },
             "type": "object",
