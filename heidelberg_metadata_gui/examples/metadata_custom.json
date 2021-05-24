@@ -2,7 +2,7 @@
     "Custom": {
         "long_description": "this session happened like this and that...",
         "institution": "Institution XXX",
-        "session_start_time": "2009-01-01T12:00:00",
+        "session_start_time": "2009-01-01T12:00:00+00:00",
         "lab": "My lab",
         "my_tags": ["me", "myself", "I"],
         "devices": [
