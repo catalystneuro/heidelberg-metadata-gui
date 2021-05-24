@@ -42,7 +42,7 @@ class MetadataForms(html.Div):
             parent_app=self.parent_app
         )
 
-        # If no schema file was passed, get metadata schema from converter
+        # If no schema file was passed, get metadata schema from basic examples
         schema_path = parent_app.server.config['JSON_SCHEMA_PATH']
         if Path(schema_path).is_file() and schema_path.split('.')[-1] == 'json':
             with open(schema_path) as f:
