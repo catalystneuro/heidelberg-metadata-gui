@@ -1,25 +1,19 @@
 {
-    "General Info": {
-        "session_description": "this session happened like this and that...",
-        "identifier": "ID12345",
+    "Custom": {
+        "long_description": "this session happened like this and that...",
+        "institution": "Institution XXX",
         "session_start_time": "2009-01-01T12:00:00",
         "lab": "My lab",
-        "experimenters": ["me", "myself", "I"]
+        "my_tags": ["me", "myself", "I"],
+        "devices": [
+            {"name": "recording_device_1"},
+            {"name": "recording_device_2"}
+        ]
     },
     "Electrophysiology": {
-        "Device": {
-            "name": "recording_device_1"
-        },
-        "ElectrodeGroup": {
-            "name": "ElectrodeGroup",
-            "description": "description",
-            "location": "location",
-            "device": "recording_device_1"
-        },
         "ElectricalSeries_raw": {
             "name": "ElectricalSeries_raw",
-            "description": "this is raw data",
-            "rate": 1000.0
+            "device": "recording_device_1"
         }
     }
 }

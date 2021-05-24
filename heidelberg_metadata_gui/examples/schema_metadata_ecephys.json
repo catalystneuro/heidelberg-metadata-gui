@@ -149,56 +149,32 @@
             "required": [],
             "properties": {
                 "Device": {
-                    "required": [
-                        "name"
-                    ],
-                    "properties": {
-                        "name": {
-                            "description": "the name of this device",
-                            "type": "string"
-                        },
-                        "description": {
-                            "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
-                            "type": "string"
-                        },
-                        "manufacturer": {
-                            "description": "the name of the manufacturer of this device",
-                            "type": "string"
-                        }
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/properties/Ecephys/properties/definitions/Device"
                     },
-                    "type": "object",
-                    "additionalProperties": false,
-                    "tag": "pynwb.device.Device"
+                    "default": [
+                        {
+                            "name": "Device_ecephys",
+                            "description": "no description"
+                        }
+                    ]
                 },
                 "ElectrodeGroup": {
-                    "required": [
-                        "name",
-                        "description",
-                        "location",
-                        "device"
-                    ],
-                    "properties": {
-                        "name": {
-                            "description": "the name of this electrode",
-                            "type": "string"
-                        },
-                        "description": {
-                            "description": "description of this electrode group",
-                            "type": "string"
-                        },
-                        "location": {
-                            "description": "description of location of this electrode group",
-                            "type": "string"
-                        },
-                        "device": {
-                            "description": "the device that was used to record from this electrode group",
-                            "type": "string",
-                            "target": "pynwb.device.Device"
-                        }
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/properties/Ecephys/properties/definitions/ElectrodeGroup"
                     },
-                    "type": "object",
-                    "additionalProperties": false,
-                    "tag": "pynwb.ecephys.ElectrodeGroup"
+                    "default": [
+                        {
+                            "name": "ElectrodeGroup",
+                            "description": "no description",
+                            "location": "no description",
+                            "device": "Device_ecephys"
+                        }
+                    ]
                 },
                 "ElectricalSeries_raw": {
                     "required": [
@@ -241,6 +217,60 @@
                     "type": "object",
                     "additionalProperties": false,
                     "tag": "pynwb.ecephys.ElectricalSeries"
+                },
+                "definitions": {
+                    "Device": {
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "description": "the name of this device",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "Description of the device (e.g., model, firmware version, processing software version, etc.)",
+                                "type": "string"
+                            },
+                            "manufacturer": {
+                                "description": "the name of the manufacturer of this device",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "additionalProperties": false,
+                        "tag": "pynwb.device.Device"
+                    },
+                    "ElectrodeGroup": {
+                        "required": [
+                            "name",
+                            "description",
+                            "location",
+                            "device"
+                        ],
+                        "properties": {
+                            "name": {
+                                "description": "the name of this electrode",
+                                "type": "string"
+                            },
+                            "description": {
+                                "description": "description of this electrode group",
+                                "type": "string"
+                            },
+                            "location": {
+                                "description": "description of location of this electrode group",
+                                "type": "string"
+                            },
+                            "device": {
+                                "description": "the device that was used to record from this electrode group",
+                                "type": "string",
+                                "target": "pynwb.device.Device"
+                            }
+                        },
+                        "type": "object",
+                        "additionalProperties": false,
+                        "tag": "pynwb.ecephys.ElectrodeGroup"
+                    }
                 }
             },
             "type": "object",
