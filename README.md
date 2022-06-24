@@ -2,6 +2,9 @@
 Metadata standardization GUI. Makes it easy to edit metadata related to neurophysiological experiments.
 
 [![PyPI version](https://badge.fury.io/py/heidelberg-metadata-gui.svg)](https://badge.fury.io/py/heidelberg-metadata-gui)
+![Full Tests](https://github.com/catalystneuro/heidelberg-metadata-gui/actions/workflows/python-app.yml/badge.svg)
+[![License](https://img.shields.io/pypi/l/pynwb.svg)](https://github.com/catalystneuro/heidelberg-metadata-gui/license.txt)
+
 
 # Install
 It is recommended that you install `heidelberg-metadata-gui` in a clean environment, for example with conda:
