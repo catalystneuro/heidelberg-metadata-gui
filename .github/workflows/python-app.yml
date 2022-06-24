@@ -4,9 +4,9 @@
 name: Python application
 
 on:
-  push:
-    branches:
-      - '**'   # matches every branch
+  schedule:
+    - cron: "0 0 * * 0"  # weekly
+  pull_request:
 
 jobs:
   ubuntu-tests:
