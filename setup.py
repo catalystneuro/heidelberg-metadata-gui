@@ -15,7 +15,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='heidelberg-metadata-gui',
-    version='0.1.1',
+    version='0.1.2',
     description='Web graphical user interface for Metadata handling',
     long_description=long_description,
     long_description_content_type='text/markdown',
