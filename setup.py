@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
 
 setup(
-    name='sfb1158_metadata_gui',
+    name='sfb1158-metadata-gui',
     version='0.1.3',
     description='Web graphical user interface for SFB1158 metadata handling.',
     long_description=long_description,
