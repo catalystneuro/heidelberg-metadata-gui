@@ -14,7 +14,7 @@ $ conda create -n env_sfb1158_metadata_gui python=3.7 pip
 
 In your clean environment, just pip install:
 ```
-$ pip install heidelberg-metadata-gui
+$ pip install sfb1158-metadata-gui
 ```
 
 To install from the repository:
