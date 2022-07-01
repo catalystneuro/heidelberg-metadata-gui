@@ -9,6 +9,6 @@ authors:
     given-names: Benjamin
     orcid: https://orcid.org/0000-0001-5725-6910
 title: "SFB1158 Metadata GUI"
-version: 0.1.2
+version: 0.1.3
 date-released: 2022-07-01
 url: "https://github.com/catalystneuro/sfb1158-metadata-gui"
