@@ -14,16 +14,16 @@ with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
 
 setup(
-    name='heidelberg-metadata-gui',
-    version='0.1.2',
-    description='Web graphical user interface for Metadata handling',
+    name='sfb1158_metadata_gui',
+    version='0.1.3',
+    description='Web graphical user interface for SFB1158 metadata handling.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Luiz Tauffer, Vinicius Camozzato Vaz and Ben Dichter',
     author_email='ben.dichter@gmail.com',
-    url='https://github.com/catalystneuro/heidelberg-metadata-gui',
+    url='https://github.com/catalystneuro/sfb1158-metadata-gui',
     packages=find_packages(),
-    package_data={'heidelberg_metadata_gui': [
+    package_data={'sfb1158_metadata_gui': [
         'examples/*.yml',
         'examples/*.json',
         '*.ini',
@@ -33,6 +33,6 @@ setup(
     include_package_data=True,
     install_requires=install_requires,
     entry_points={
-        'console_scripts': ['metadata-gui=heidelberg_metadata_gui.cmd_line:cmd_line_shortcut'],
+        'console_scripts': ['sfb1158-metadata-gui=sfb1158_metadata_gui.cmd_line:cmd_line_shortcut'],
     }
 )
