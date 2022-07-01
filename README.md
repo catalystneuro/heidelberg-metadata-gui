@@ -26,7 +26,7 @@ $ pip install git+https://github.com/catalystneuro/sfb1158-metadata-gui
 
 Navigate to the directory where your dataset is stored, then run from command line:
 ```
-$ metadata-gui
+$ sfb1158-metadata-gui
 ```
 
 On your browser, navigate to `localhost:5000`.
