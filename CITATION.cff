@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Tauffer
+    given-names: Luiz
+  - family-names: Vaz
+    given-names: Vinícius
+  - family-names: Dichter
+    given-names: Benjamin
+    orcid: https://orcid.org/0000-0001-5725-6910
+title: "SFB1158 Metadata GUI"
+version: 0.1.2
+date-released: 2022-07-01
+url: "https://github.com/catalystneuro/heidelberg-metadata-gui"
