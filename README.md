@@ -1,4 +1,7 @@
 # heidelberg-metadata-gui
+
+This project has been funded by SFB 1158 (https://www.sfb1158.de/ , Project identifier (German Research Foundation (DFG) - project number 255156212)
+
 Metadata standardization GUI. Makes it easy to edit metadata related to neurophysiological experiments.
 
 [![PyPI version](https://badge.fury.io/py/heidelberg-metadata-gui.svg)](https://badge.fury.io/py/heidelberg-metadata-gui)
